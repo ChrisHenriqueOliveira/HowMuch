@@ -10,7 +10,7 @@ import { theme } from '../constants'
 const screens = createStackNavigator({
     Welcome,
 }, {
-    defaultNavigationOprions: {
+    defaultNavigationOptions: {
         headerStyle: {},
         headerBackImage: <Image />,
         headerBackTitle: null,
