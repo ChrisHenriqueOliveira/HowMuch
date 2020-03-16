@@ -9,6 +9,7 @@ import {
   ScrollView
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { LinearTextGradient } from "react-native-text-gradient";
 
 import { Button, Block, Text } from "../components";
 import { theme } from "../constants";
@@ -162,42 +163,110 @@ class Welcome extends Component {
         </Modal>
       );
     }
+    renderIllustrations() {
+      const { illustrations } = this.props;
+  
+      return (
+        <FlatList
+          horizontal
+          pagingEnabled
+          scrollEnabled
+          showsHorizontalScrollIndicator={false}
+          scrollEventThrottle={16}
+          snapToAlignment="center"
+          data={illustrations}
+          extraDate={this.state}
+          keyExtractor={(item, index) => `${item.id}`}
+          renderItem={({ item }) => (
+            <Image
+              source={item.source}
+              resizeMode="contain"
+              style={{ width, height: height / 2, overflow: "visible" }}
+            />
+          )}
+          onScroll={Animated.event([
+            {
+              nativeEvent: { contentOffset: { x: this.scrollX } }
+            }
+          ])}
+        />
+      );
+    }
+    renderSteps() {
+      const { illustrations } = this.props;
+      const stepPosition = Animated.divide(this.scrollX, width);
+      return (
+        <Block row center middle style={styles.stepsContainer}>
+          {illustrations.map((item, index) => {
+            const opacity = stepPosition.interpolate({
+              inputRange: [index - 1, index, index + 1],
+              outputRange: [0.4, 1, 0.4],
+              extrapolate: "clamp"
+            });
+  
+            return (
+              <Block
+                animated
+                flex={false}
+                key={`step-${index}`}
+                color="gray"
+                style={[styles.steps, { opacity }]}
+              />
+            );
+          })}
+        </Block>
+      );
+    }
 
     render() {
         const { navigation } = this.props;
     
         return (
           <Block>
+            <Block center bottom flex={0.4}>
+              <Image source={require("../assets/images/welcomeLogoText.png")} resizeMode="contain"
+              style={{ width: '50%', }}></Image>
+            </Block>
             <Block center middle>
-              <Image
-              source={require('../assets/images/welcomeLogo.png')}
-              resizeMode="contain"
-              style={{ width: '70%', height: height / 2, overflow: "visible" }}
-            />
-            </Block>
-            <Block middle flex={0.5} margin={[0, theme.sizes.padding * 2]}>
-              <Button onPress={() => navigation.navigate("Login")} style={styles.facebookLoginButton}>
-              <Icon name="facebook-f" style={styles.icon}></Icon>
-                <Text center semibold white>
-                LOGAR COM FACEBOOK
-                </Text>
-              </Button>
-              <Button shadow onPress={() => navigation.navigate("SignUp")} style={styles.visitorLoginButton}>
-                <Text center semibold pink>
-                LOGAR COMO VISITANTE
-                </Text>
-              </Button>
-              <Button onPress={() => this.setState({ showTerms: true })} style={{backgroundColor: 'transparent'}}>
+              {this.renderIllustrations()}
+              <Button onPress={() => ({})} style={{backgroundColor: 'transparent', bottom: 40}}>
                 <Text center caption gray>
-                  Termos de serviço
+                  illustration by Ouch.pics
                 </Text>
               </Button>
+              {this.renderSteps()}
             </Block>
-            {this.renderTermsService()}
+                <Block middle flex={0.5} margin={[0, theme.sizes.padding * 2]}>
+                  <Button onPress={() => navigation.navigate("Login")} style={styles.facebookLoginButton}>
+                  <Icon name="facebook-f" style={styles.icon}></Icon>
+                    <Text center semibold white>
+                    LOGAR COM FACEBOOK
+                    </Text>
+                  </Button>
+                  <Button shadow onPress={() => navigation.navigate("SignUp")} style={styles.visitorLoginButton}>
+                    <Text center semibold pink>
+                    LOGAR COMO VISITANTE
+                    </Text>
+                  </Button>
+                  <Button onPress={() => this.setState({ showTerms: true })} style={{backgroundColor: 'transparent'}}>
+                    <Text center caption gray>
+                      Termos de serviço
+                    </Text>
+                  </Button>
+                </Block>
+                {this.renderTermsService()}
           </Block>
         );
     }
 }
+
+Welcome.defaultProps = {
+  illustrations: [
+    { id: 1, source: require("../assets/images/welcomeImage3.png") },
+    { id: 2, source: require("../assets/images/welcomeImage2.png") },
+    { id: 3, source: require("../assets/images/welcomeImage1.png") }
+  ]
+};
 
 const styles = StyleSheet.create({
   icon: {
@@ -214,6 +283,18 @@ const styles = StyleSheet.create({
   },
   facebookLoginButton: {
     backgroundColor: 'rgba(29,85,197,1)',
+  },
+  stepsContainer: {
+    position: "absolute",
+    bottom: theme.sizes.base * 7,
+    right: 0,
+    left: 0
+  },
+  steps: {
+    width: 5,
+    height: 5,
+    borderRadius: 5,
+    marginHorizontal: 2.5
   }
 });
 
