@@ -6,7 +6,8 @@ import {
   FlatList,
   Modal,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  StatusBar
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { LinearTextGradient } from "react-native-text-gradient";
@@ -17,9 +18,9 @@ import { theme } from "../constants";
 const { width, height } = Dimensions.get("window");
 
 class Welcome extends Component {
-    static navigationOptions = {
-        header: null
-    };
+  static navigationOptions = {
+    header: null
+  };
 
     scrollX = new Animated.Value(0);
 
@@ -222,7 +223,11 @@ class Welcome extends Component {
         const { navigation } = this.props;
     
         return (
-          <Block>
+          <Block style={{backgroundColor: 'white'}}>
+            <StatusBar 
+              barStyle='dark-content'
+              hidden={false}
+            />
             <Block center bottom flex={0.4}>
               <Image source={require("../assets/images/welcomeLogoText.png")} resizeMode="contain"
               style={{ width: '50%', }}></Image>
@@ -243,7 +248,7 @@ class Welcome extends Component {
                     LOGAR COM FACEBOOK
                     </Text>
                   </Button>
-                  <Button shadow onPress={() => navigation.navigate("SignUp")} style={styles.visitorLoginButton}>
+                  <Button shadow onPress={() => navigation.navigate("Browse")} style={styles.visitorLoginButton}>
                     <Text center semibold pink>
                     LOGAR COMO VISITANTE
                     </Text>

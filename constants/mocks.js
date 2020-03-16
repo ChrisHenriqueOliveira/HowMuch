@@ -1,46 +1,20 @@
 const categories = [
     {
-      id: "plants",
-      name: "Plants",
-      tags: ["products", "inspirations"],
-      count: 147,
-      image: require("../assets/icons/plants.png")
+      catTitle: "Pizza",
+      catImage: require("../assets/images/cat_pizza.png"),
+    },{
+      catTitle: "Chinese",
+      catImage: require("../assets/images/cat_chinese.png"),
+    },{
+      catTitle: "Icecream",
+      catImage: require("../assets/images/cat_icecream.png"),
+    },{
+      catTitle: "Hamburguer",
+      catImage: require("../assets/images/cat_burguer.png"),
+    },{
+      catTitle: "Mexicana",
+      catImage: require("../assets/images/cat_nachos.png"),
     },
-    {
-      id: "seeds",
-      name: "Seeds",
-      tags: ["products", "shop"],
-      count: 16,
-      image: require("../assets/icons/seeds.png")
-    },
-    {
-      id: "flowers",
-      name: "Flowers",
-      tags: ["products", "inspirations"],
-      count: 68,
-      image: require("../assets/icons/flowers.png")
-    },
-    {
-      id: "sprayers",
-      name: "Sprayers",
-      tags: ["products", "shop"],
-      count: 17,
-      image: require("../assets/icons/sprayers.png")
-    },
-    {
-      id: "pots",
-      name: "Pots",
-      tags: ["products", "shop"],
-      count: 47,
-      image: require("../assets/icons/pots.png")
-    },
-    {
-      id: "fertilizers",
-      name: "fertilizers",
-      tags: ["products", "shop"],
-      count: 47,
-      image: require("../assets/icons/fertilizers.png")
-    }
   ];
   
   const products = [
