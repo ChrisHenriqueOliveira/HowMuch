@@ -16,6 +16,45 @@ const categories = [
       catImage: require("../assets/images/cat_nachos.png"),
     },
   ];
+
+  const restaurants = [
+    {
+      restTitle: "Buttermilk",
+      restInfo: "Southern Kitchen - 5.4km",
+      restImage: require("../assets/images/restaurant_1.png"),
+      restStars: "4.3",
+    },{
+      restTitle: "Over the Moon",
+      restInfo: "Asian - 3.4km",
+      restImage: require("../assets/images/restaurant_2.png"),
+      restStars: "3.4",
+    },{
+      restTitle: "Bubbel & Brie",
+      restInfo: "Luxury - 7.5km",
+      restImage: require("../assets/images/restaurant_3.png"),
+      restStars: "4.8",
+    },{
+      restTitle: "Délice Perlé",
+      restInfo: "Sweet - 2.5km",
+      restImage: require("../assets/images/restaurant_4.png"),
+      restStars: "4.7",
+    },{
+      restTitle: "Air Cafe",
+      restInfo: "Coffee - 4km",
+      restImage: require("../assets/images/restaurant_5.png"),
+      restStars: "4.2",
+    },{
+      restTitle: "Nomad Lounge",
+      restInfo: "Bar - 2.9km",
+      restImage: require("../assets/images/restaurant_6.png"),
+      restStars: "3.5",
+    },{
+      restTitle: "Kalz Brgr",
+      restInfo: "Hamburguer - 2km",
+      restImage: require("../assets/images/restaurant_7.png"),
+      restStars: "4.3",
+    },
+  ];
   
   const products = [
     {
@@ -60,4 +99,4 @@ const categories = [
     newsletter: false
   };
   
-  export { categories, explore, products, profile };
+  export { categories, explore, products, profile, restaurants };

@@ -21,7 +21,7 @@ function CategoriesBlock(props) {
 
 const styles = StyleSheet.create({
   container: {
-      marginLeft:10
+      margin:10
   },
   view: {
     width: 90,
@@ -30,13 +30,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: "rgba(208,208,208,1)",
     borderWidth: 1,
-    shadowOffset: {
-      height: 10,
-      width: 0
-    },
-    shadowColor: "rgba(0,0,0,1)",
-    shadowOpacity: 0.1,
-    shadowRadius: 20,
+ 
     alignItems: 'center'
   },
   image: {
