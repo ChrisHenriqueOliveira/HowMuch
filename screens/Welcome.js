@@ -242,7 +242,7 @@ class Welcome extends Component {
               {this.renderSteps()}
             </Block>
                 <Block middle flex={0.5} margin={[0, theme.sizes.padding * 2]}>
-                  <Button onPress={() => navigation.navigate("Login")} style={styles.facebookLoginButton}>
+                  <Button onPress={() => navigation.navigate()} style={styles.facebookLoginButton}>
                   <Icon name="facebook-f" style={styles.icon}></Icon>
                     <Text center semibold white>
                     LOGAR COM FACEBOOK

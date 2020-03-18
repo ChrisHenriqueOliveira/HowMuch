@@ -11,8 +11,6 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 import { Card, Badge, Button, Block, Text } from "../components";
 import { theme, mocks } from "../constants";
-import CategoriesBlock from "../components/CategoriesBlock";
-import RestaurantBlock from "../components/RestaurantsBlock";
 
 const { width } = Dimensions.get("window");
 
@@ -50,32 +48,63 @@ class Browse extends Component {
           </Button>
         </Block>
         <Block flex={false} column space="between" style={styles.categoriesContainer}>
-          <Text h2 bold style={{marginHorizontal: theme.sizes.base * 2, marginBottom: 10}}>
+          <Text h2 bold style={{marginHorizontal: 20, marginBottom: 10}}>
             Categorias
           </Text>     
           <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false} 
-                contentContainerStyle={{flexGrow: 1, justifyContent : 'center'}}            
+                contentContainerStyle={{flexGrow: 1, justifyContent : 'center', paddingLeft: 20, paddingRight: 10}}            
                 >
                     {categories.map(category => (
-                    <CategoriesBlock {...category}></CategoriesBlock>
+                    <View style={styles.individualCategoryContainer}>
+                      <TouchableOpacity
+                      onPress={() => navigation.navigate("FilteredRestaurants", {category: category})}>
+                        <View style={styles.categoryView}>
+                            <Image
+                            source={category.catImage}
+                            resizeMode="contain"
+                            style={styles.categoryImage}
+                            ></Image>
+                            <Text style={styles.categoryText}>{category.catTitle}</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
                     ))}
             </ScrollView> 
         </Block>
         <Block flex={1} column  style={styles.restaurantsContainer}>
-          <Text h2 bold style={{marginHorizontal: theme.sizes.base * 2, marginBottom: 10}}>
+          <Text h2 bold style={{marginHorizontal: 20, marginBottom: 0}}>
             Restaurantes
           </Text>     
           <ScrollView
                 horizontal={false}
                 showsHorizontalScrollIndicator={false} 
-                style={{      marginBottom: 15
+                style={{      marginBottom: 10
                 }}
                 contentContainerStyle={{flexGrow: 1, width: '100%'}}            
                 >
-                    {restaurants.map(restaurant => (
-                    <RestaurantBlock {...restaurant}></RestaurantBlock>
+                    {restaurants.map(restaurant => (                
+                    <View style={{alignItems: 'center'}}>
+                            <View style={styles.individualRestaurantContainer}>
+                                <TouchableOpacity onPress={() => navigation.navigate("FilteredRestaurants", { restaurant })}>
+                                    <View style={{flexDirection: 'row'}}>
+                                        <Image
+                                        source={restaurant.restImage}
+                                        style={styles.restaurantImage}
+                                        ></Image>
+                                        <View style={{flexDirection: 'column', marginLeft: 10}}>
+                                          <Text bold style={{fontSize: 15}}>{restaurant.restTitle}</Text>
+                                          <Text gray styles={{fontSize: 13}}>{restaurant.restInfo}</Text>
+                                          <View style={{flexDirection: 'row'}}>
+                                            <Icon name="star" style={styles.restaurantIcon}></Icon>
+                                            <Text style={{color: '#007084', marginLeft: 5, fontSize: 15, marginTop: 10}}>{restaurant.restStars}</Text>
+                                          </View>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>
+                          </View>
+                      </View>
                     ))}
             </ScrollView> 
         </Block>  
@@ -93,6 +122,7 @@ Browse.defaultProps = {
 export default Browse;
 
 const styles = StyleSheet.create({
+  // HEADER BLOCK
   headerContainer: {
     paddingHorizontal: theme.sizes.base * 2,
     backgroundColor: 'white',
@@ -105,6 +135,11 @@ const styles = StyleSheet.create({
       shadowRadius: 20,
       zIndex: 2
   },
+  avatar: {
+    height: theme.sizes.base * 2.2,
+    width: theme.sizes.base * 2.2
+  },
+  // CATEGORY BLOCK  
   categoriesContainer: {
     backgroundColor: 'white',
     shadowOffset: {
@@ -117,6 +152,7 @@ const styles = StyleSheet.create({
       paddingTop: 10,
       zIndex: 1,
   },
+    // RESTAURANT BLOCK  
   restaurantsContainer: {
     backgroundColor: 'white',
     shadowOffset: {
@@ -130,8 +166,52 @@ const styles = StyleSheet.create({
       paddingTop: 10,
       zIndex: 0,
   },
-  avatar: {
-    height: theme.sizes.base * 2.2,
-    width: theme.sizes.base * 2.2
+  // CATEGORY ITEMS
+  individualCategoryContainer: {
+    marginRight: 10,
+    marginBottom: 10
+  },
+  categoryView: {
+    width: 90,
+    height: 90,
+    backgroundColor: "rgba(255,255,255,1)",
+    borderRadius: 8,
+    borderColor: "rgba(208,208,208,1)",
+    borderWidth: 1,
+    alignItems: 'center'
+  },
+  categoryImage: {
+    width: 60,
+    height: 60,
+    marginTop: 5,
+  },
+  categoryText: {
+    color: "#121212",
+    fontSize: 13,
+    textAlign: "center",
+    marginTop: 5
+  },
+  // RESTAURANT ITEMS
+  individualRestaurantContainer: {
+    backgroundColor: "rgba(255,255,255,1)",
+    borderRadius: 8,
+    borderColor: "rgba(208,208,208,1)",
+    borderWidth: 1,
+    width: '90%',
+    height: 80,
+    marginTop:10,
+    justifyContent: 'center',
+  },
+  restaurantImage: {
+    width: 65,
+    height: 65,
+    borderRadius: 8,
+    marginLeft: 7.5,
+    marginRight: 7.5
+  },
+  restaurantIcon: {
+    color: "rgba(255,206,0,1)",
+    fontSize: 20,
+    marginTop: 8
   },
 });

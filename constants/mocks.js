@@ -23,6 +23,7 @@ const categories = [
       restInfo: "Southern Kitchen - 5.4km",
       restImage: require("../assets/images/restaurant_1.png"),
       restStars: "4.3",
+      restCategory: 'Lanches'
     },{
       restTitle: "Over the Moon",
       restInfo: "Asian - 3.4km",

@@ -19,7 +19,6 @@ class FilteredRestaurants extends Component {
     super(props)
 
     this.state = {
-      prevScreenTitle: this.props.navigation.state.params.prevScreenTitle,
       category: this.props.navigation.state.params.category,
     };
   }
@@ -39,10 +38,13 @@ class FilteredRestaurants extends Component {
     const { categories, restaurants } = this.state;
 
       return (
-        <View style={styles.container}>
-          <Text>This is first screen :D :D</Text>
-          <Text>Previous screen is {this.state.category.catTitle}</Text>
-        </View>
+        <Block style={{backgroundColor: 'white'}}>
+           <Block flex={false} row center space="between" style={styles.headerContainer}>
+          <Text h1 bold>
+            {this.state.category.catTitle}
+          </Text>
+        </Block>
+        </Block>
       );
   }
 }
@@ -65,7 +67,8 @@ const styles = StyleSheet.create({
       shadowColor: "rgba(0,0,0,1)",
       shadowOpacity: 0.1,
       shadowRadius: 20,
-      zIndex: 2
+      zIndex: 2,
+      padding: 20
   },
   avatar: {
     height: theme.sizes.base * 2.2,
