@@ -19,7 +19,7 @@ const { width, height } = Dimensions.get("window");
 
 class Welcome extends Component {
   static navigationOptions = {
-    header: null
+    headerShown: false
   };
 
     scrollX = new Animated.Value(0);

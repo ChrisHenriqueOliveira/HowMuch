@@ -16,7 +16,9 @@ const { width } = Dimensions.get("window");
 
 class Browse extends Component {
   static navigationOptions = {
-    headerBackImage: null
+    headerBackImage: null,
+    headerLeft: null,
+    gesturesEnabled: false,
   };
   state = {
     categories: [],
@@ -24,21 +26,18 @@ class Browse extends Component {
   };
 
   componentDidMount() {
-    this.setState({ 
+    this.setState({
       categories: this.props.categories,
-      restaurants: this.props.restaurants });
+      restaurants: this.props.restaurants
+    });
   }
-
-  handleTab = tab => {
-    const { categories, restaurants } = this.props;
-  };
 
   render() {
     const { profile, navigation } = this.props;
     const { categories, restaurants } = this.state;
 
     return (
-      <Block style={{backgroundColor: 'white'}}>
+      <Block style={{ backgroundColor: 'white' }}>
         <Block flex={false} row center space="between" style={styles.headerContainer}>
           <Text h1 bold>
             Olá Christian,
@@ -48,67 +47,72 @@ class Browse extends Component {
           </Button>
         </Block>
         <Block flex={false} column space="between" style={styles.categoriesContainer}>
-          <Text h2 bold style={{marginHorizontal: 20, marginBottom: 10}}>
+          <Text h2 bold style={{ marginHorizontal: 20, marginBottom: 10 }}>
             Categorias
-          </Text>     
+          </Text>
           <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false} 
-                contentContainerStyle={{flexGrow: 1, justifyContent : 'center', paddingLeft: 20, paddingRight: 10}}            
-                >
-                    {categories.map(category => (
-                    <View style={styles.individualCategoryContainer}>
-                      <TouchableOpacity
-                      onPress={() => navigation.navigate("FilteredRestaurants", {category: category})}>
-                        <View style={styles.categoryView}>
-                            <Image
-                            source={category.catImage}
-                            resizeMode="contain"
-                            style={styles.categoryImage}
-                            ></Image>
-                            <Text style={styles.categoryText}>{category.catTitle}</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                    ))}
-            </ScrollView> 
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', paddingLeft: 20, paddingRight: 10 }}
+          >
+            {categories.map(category => (
+
+              <View key={category.catKey} style={styles.individualCategoryContainer}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("FilteredRestaurants", { category: category })}>
+                  <View style={styles.categoryView}>
+                    <Image
+                      source={category.catImage}
+                      resizeMode="contain"
+                      style={styles.categoryImage}
+                    ></Image>
+                    <Text numberOfLines={1} style={styles.categoryText}>{category.catTitle}</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </ScrollView>
         </Block>
-        <Block flex={1} column  style={styles.restaurantsContainer}>
-          <Text h2 bold style={{marginHorizontal: 20, marginBottom: 0}}>
+        <Block flex={1} column style={styles.restaurantsContainer}>
+          <Text h2 bold style={{ marginHorizontal: 20, marginBottom: 0 }}>
             Restaurantes
-          </Text>     
+          </Text>
           <ScrollView
-                horizontal={false}
-                showsHorizontalScrollIndicator={false} 
-                style={{      marginBottom: 10
-                }}
-                contentContainerStyle={{flexGrow: 1, width: '100%'}}            
-                >
-                    {restaurants.map(restaurant => (                
-                    <View style={{alignItems: 'center'}}>
-                            <View style={styles.individualRestaurantContainer}>
-                                <TouchableOpacity onPress={() => navigation.navigate("FilteredRestaurants", { restaurant })}>
-                                    <View style={{flexDirection: 'row'}}>
-                                        <Image
-                                        source={restaurant.restImage}
-                                        style={styles.restaurantImage}
-                                        ></Image>
-                                        <View style={{flexDirection: 'column', marginLeft: 10}}>
-                                          <Text bold style={{fontSize: 15}}>{restaurant.restTitle}</Text>
-                                          <Text gray styles={{fontSize: 13}}>{restaurant.restInfo}</Text>
-                                          <View style={{flexDirection: 'row'}}>
-                                            <Icon name="star" style={styles.restaurantIcon}></Icon>
-                                            <Text style={{color: '#007084', marginLeft: 5, fontSize: 15, marginTop: 10}}>{restaurant.restStars}</Text>
-                                          </View>
-                                        </View>
-                                    </View>
-                                </TouchableOpacity>
-                          </View>
+            horizontal={false}
+            showsHorizontalScrollIndicator={false}
+            style={{
+              marginBottom: 10
+            }}
+            contentContainerStyle={{ flexGrow: 1, width: '100%' }}
+          >
+            {restaurants.map(restaurant => (
+              <View key={restaurant.retKey} style={{ alignItems: 'center' }}>
+                <View style={styles.individualRestaurantContainer}>
+                  <TouchableOpacity onPress={() => navigation.navigate("RestaurantHome", { restaurant: restaurant })}>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Image
+                        source={restaurant.restImage}
+                        style={styles.restaurantImage}
+                      ></Image>
+                      <View style={{ flexDirection: 'column', marginLeft: 10 }}>
+                        <Text bold numberOfLines={1} style={{ fontSize: 15 }}>
+                          {restaurant.restTitle.length < 20
+                            ? `${restaurant.restTitle}`
+                            : `${restaurant.restTitle.substring(0, 20)}...`}</Text>
+                        <Text gray styles={{ fontSize: 13 }}>{restaurant.restInfo}</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                          <Icon name="star" style={styles.restaurantIcon}></Icon>
+                          <Text style={{ color: '#007084', marginLeft: 5, fontSize: 15, marginTop: 10 }}>{restaurant.restStars}</Text>
+                        </View>
                       </View>
-                    ))}
-            </ScrollView> 
-        </Block>  
-    </Block>
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
+        </Block>
+      </Block>
     );
   }
 }
@@ -127,13 +131,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.sizes.base * 2,
     backgroundColor: 'white',
     shadowOffset: {
-        height: 6,
-        width: 0
-      },
-      shadowColor: "rgba(0,0,0,1)",
-      shadowOpacity: 0.1,
-      shadowRadius: 20,
-      zIndex: 2
+      height: 6,
+      width: 0
+    },
+    shadowColor: "rgba(0,0,0,1)",
+    shadowOpacity: 0.1,
+    shadowRadius: 20,
+    zIndex: 2
   },
   avatar: {
     height: theme.sizes.base * 2.2,
@@ -143,28 +147,28 @@ const styles = StyleSheet.create({
   categoriesContainer: {
     backgroundColor: 'white',
     shadowOffset: {
-        height: 6,
-        width: 0
-      },
-      shadowColor: "rgba(0,0,0,1)",
-      shadowOpacity: 0.1,
-      shadowRadius: 20,
-      paddingTop: 10,
-      zIndex: 1,
+      height: 6,
+      width: 0
+    },
+    shadowColor: "rgba(0,0,0,1)",
+    shadowOpacity: 0.1,
+    shadowRadius: 20,
+    paddingTop: 10,
+    zIndex: 1,
   },
-    // RESTAURANT BLOCK  
+  // RESTAURANT BLOCK  
   restaurantsContainer: {
     backgroundColor: 'white',
     shadowOffset: {
-        height: 6,
-        width: 0
-      },
-      shadowColor: "rgba(0,0,0,1)",
-      shadowOpacity: 0.1,
-      shadowRadius: 20,
-      zIndex: 0,
-      paddingTop: 10,
-      zIndex: 0,
+      height: 6,
+      width: 0
+    },
+    shadowColor: "rgba(0,0,0,1)",
+    shadowOpacity: 0.1,
+    shadowRadius: 20,
+    zIndex: 0,
+    paddingTop: 10,
+    zIndex: 0,
   },
   // CATEGORY ITEMS
   individualCategoryContainer: {
@@ -189,7 +193,8 @@ const styles = StyleSheet.create({
     color: "#121212",
     fontSize: 13,
     textAlign: "center",
-    marginTop: 5
+    marginTop: 5,
+    paddingHorizontal: 5
   },
   // RESTAURANT ITEMS
   individualRestaurantContainer: {
@@ -199,7 +204,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: '90%',
     height: 80,
-    marginTop:10,
+    marginTop: 10,
     justifyContent: 'center',
   },
   restaurantImage: {

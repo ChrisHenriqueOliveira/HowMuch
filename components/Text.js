@@ -39,6 +39,7 @@ export default class Typography extends Component {
       gray,
       gray2,
       pink,
+      green,
       fbBlue,
       style,
       children,
@@ -79,6 +80,7 @@ export default class Typography extends Component {
       gray && styles.gray,
       gray2 && styles.gray2,
       pink && styles.pink,
+      green && styles.green,
       fbBlue && styles.fbBlue,
       style // rewrite predefined styles
     ];
@@ -127,6 +129,7 @@ const styles = StyleSheet.create({
   fbBlue: {color: 'rgba(29,85,197,1)'},
   gray: { color: theme.colors.gray },
   gray2: { color: theme.colors.gray2 },
+  green: {color: 'green'},
   // fonts
   h1: theme.fonts.h1,
   h2: theme.fonts.h2,
