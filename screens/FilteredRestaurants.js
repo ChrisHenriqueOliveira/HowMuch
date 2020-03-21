@@ -11,6 +11,8 @@ import {
 import RestIcon from "react-native-vector-icons/MaterialIcons";
 import SearchIcon from "react-native-vector-icons/FontAwesome";
 
+import { Divider } from 'react-native-elements'
+
 import { Card, Badge, Button, Block, Text, Input } from "../components";
 import { theme, mocks } from "../constants";
 
@@ -96,31 +98,34 @@ class FilteredRestaurants extends Component {
             }}
             contentContainerStyle={{ flexGrow: 1, width: '100%' }}
           >         
-            {aux.map(restaurant => (
-              <View key={restaurant.restKey} style={{ alignItems: 'center' }}>
-                <View style={styles.individualRestaurantContainer}>
-                  <TouchableOpacity onPress={() => navigation.navigate("RestaurantHome", { restaurant: restaurant })}>
-                    <View style={{ flexDirection: 'row' }}>
-                      <Image
-                        source={restaurant.restImage}
-                        style={styles.restaurantImage}
-                      ></Image>
-                      <View style={{ flexDirection: 'column', marginLeft: 10 }}>
-                        <Text bold numberOfLines={1} style={{ fontSize: 15 }}>
-                          {restaurant.restTitle.length < 20
-                            ? `${restaurant.restTitle}`
-                            : `${restaurant.restTitle.substring(0, 20)}...`}</Text>
-                        <Text gray styles={{ fontSize: 13 }}>{restaurant.restInfo}</Text>
-                        <View style={{ flexDirection: 'row' }}>
-                          <RestIcon name="star" style={styles.restaurantIcon}></RestIcon>
-                          <Text style={{ color: '#007084', marginLeft: 5, fontSize: 15, marginTop: 10 }}>{restaurant.restStars}</Text>
+            {restaurants.map(restaurant => (
+                  <View key={restaurant.retKey} style={{ alignItems: 'center', paddingHorizontal: 20 }}>
+                    <View style={styles.individualRestaurantContainer}>
+                      <TouchableOpacity onPress={() => navigation.navigate("RestaurantHome", { restaurant: restaurant })}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                          <Image
+                            source={restaurant.restImage}
+                            style={styles.restaurantImage}
+                          ></Image>
+                          <View style={{ flexDirection: 'column', marginLeft: 10 }}>
+                            <Text bold numberOfLines={1} style={{ fontSize: 14, fontFamily: 'Poppins-Bold' }}>
+                              {restaurant.restTitle.length < 20
+                                ? `${restaurant.restTitle}`
+                                : `${restaurant.restTitle.substring(0, 20)}...`}</Text>
+                            <Text bold numberOfLines={1} style={{ fontSize: 14, fontFamily: 'Poppins-Regular' }}>{restaurant.restInfo}</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                              <RestIcon name="star" style={styles.restaurantIcon}></RestIcon>
+                              <Text style={{ color: '#007084', marginLeft: 5, fontSize: 15, marginTop: 10 }}>{restaurant.restStars}</Text>
+                            </View>
+                          </View>
                         </View>
-                      </View>
+                        
+                      </TouchableOpacity>
+                      <Divider style={{marginTop: 10}}></Divider>
+
                     </View>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            ))}
+                  </View>
+                ))}
           </ScrollView>
         </Block>
     );
@@ -152,7 +157,7 @@ const styles = StyleSheet.create({
   // HEADER BLOCK
   headerContainer: {
     paddingHorizontal: theme.sizes.base * 2,
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(255,255,255,1)',
     shadowOffset: {
       height: 6,
       width: 0
@@ -172,8 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,1)",
     borderRadius: 8,
     borderColor: "rgba(208,208,208,1)",
-    borderWidth: 1,
-    width: '90%',
+    width: '100%',
     height: 80,
     marginTop: 10,
     justifyContent: 'center',

@@ -108,8 +108,7 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: theme.colors.black,
-    borderRadius: theme.sizes.radius,
-    fontSize: theme.sizes.font,
+    borderRadius: 50,
     fontWeight: "500",
     color: theme.colors.black,
     height: theme.sizes.base * 3
