@@ -9,7 +9,8 @@ import {
   View,
   Keyboard,
   TouchableWithoutFeedback,
-  Text
+  Text,
+  Modal
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -36,15 +37,66 @@ class RestaurantHome extends Component {
 
     this.state = {
       restaurant: this.props.navigation.state.params.restaurant,
+      active: "ENTRADAS",
+      animationValue : new Animated.Value(-50),
+      viewState : true,
+      batata: "ios-arrow-down"
     };
+  }
+
+  toggleAnimation=()=>{
+ 
+    if(this.state.viewState == true){
+    Animated.timing(this.state.animationValue, {
+      toValue : -width,
+      timing : 1500
+    }).start(()=>{
+      this.setState({viewState: false, iconName: "ios-arrow-down"})
+    });
+    }
+    else{
+      Animated.timing(this.state.animationValue, {
+        toValue : -50,
+        timing : 1500
+      }).start(this.setState({viewState: true, iconName: "ios-arrow-down"})
+      );
+    }
   }
 
   componentDidMount() {
 
   }
 
+  handleTab = tab => {
+    this.setState({ active: tab });
+    
+  };
+
+  renderTab(tab) {
+    const { active } = this.state;
+    const isActive = active === tab;
+
+    return (
+      <TouchableOpacity
+        key={`tab-${tab}`}
+        onPress={() => this.handleTab(tab)}
+        style={{paddingHorizontal: 10, paddingBottom: 5, textAlign: 'center', borderBottomColor: isActive ? '#91C6DC' : 'transparent', borderBottomWidth: 2, height: 30}}
+      >
+        <Text style={{color: isActive ? 'black' : 'lightgray', fontFamily: 'Poppins-Bold' }}>
+          {tab}
+        </Text>
+      </TouchableOpacity>
+    );
+  }
+
   render() {
+
+    const animatedStyle = {
+      height : this.state.animationValue
+    }
     const { navigation } = this.props;
+    const tabs = ["ENTRADAS", "BEBIDAS", "SOBREMESAS", "VEGETARIANAS", "DOCES"];
+
     return (
       <DismissKeyboard>
         <View style={{ flex: 1 }}>
@@ -55,14 +107,14 @@ class RestaurantHome extends Component {
             zIndex: 2,
             alignItems: 'center',
             justifyContent: 'center'
-          }}>
+          }} onPress={() => navigation.goBack()}>
             <Icon name="ios-arrow-back" style={{ fontSize: 30 }}></Icon>
           </TouchableOpacity>
-          <View style={{ flex: 0.3, backgroundColor: 'red' }}>
+          <View style={{ flex: 0.22, backgroundColor: 'red' }}>
             <Image source={require('../assets/images/fundoa.png')} style={{ width: '100%', height: '100%', opacity: '0.7' }} />
           </View>
           <View style={{
-            flex: 0.22, marginTop: -50, borderTopLeftRadius: 50, borderTopRightRadius: 50, backgroundColor: '#91C6DC', shadowOffset: {
+            flex: 0.20, marginTop: -50, borderTopLeftRadius: 25, borderTopRightRadius: 25, backgroundColor: '#91C6DC', shadowOffset: {
               height: 2,
               width: 0
             },
@@ -80,39 +132,42 @@ class RestaurantHome extends Component {
                 bottom: 70,
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginLeft: '20%' 
-              }}>
+                marginLeft: '20%'
+              }} onPress={{}} >
                 <View style={{
                   flexDirection: 'row', alignItems: 'center',
                   justifyContent: 'space-between',
                 }}>
-                  <Icon name="md-locate" style={{ fontSize: 15,}}></Icon>
-                  <Text style={{ fontSize: 10, marginLeft: 5, fontFamily: 'Poppins-SemiBold', color:'blue'}}>Ir para o local</Text>
+                  <Icon name="md-locate" style={{ fontSize: 15, }}></Icon>
+                  <Text style={{ fontSize: 10, marginLeft: 5, fontFamily: 'Poppins-SemiBold', color: 'blue' }}>Ir para o local</Text>
                 </View>
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{
-            flex: 0.48, marginTop: -50, borderTopLeftRadius: 50, borderTopRightRadius: 50, backgroundColor: 'white', shadowOffset: {
+          <Animated.View style={{
+            flex: 0.58, marginTop: animatedStyle.height, borderTopLeftRadius: 25, borderTopRightRadius: 25, backgroundColor: 'white', shadowOffset: {
               height: 2,
               width: 0
             },
             shadowColor: "rgba(0,0,0,1)",
             shadowOpacity: 0.5,
             shadowRadius: 5,
-            alignItems: 'center'
+            alignItems: 'center',
+            zIndex: 5,          
           }}>
-            <View style={{ flex: 0.15, flexDirection: 'row', paddingHorizontal: 30}}>
-            <Text style={{fontSize: 20, fontFamily: 'Poppins-Regular',  marginTop: 30, }}>ENTRADAS</Text>
-            <Text style={{fontSize: 20, fontFamily: 'Poppins-Light', color: 'gray', marginTop: 30, }}>    BEBIDAS</Text>
-            <Text style={{fontSize: 20, fontFamily: 'Poppins-Light',  color: 'gray', marginTop: 30, }}>    SOBREMESAS</Text>
-            </View> 
-            {/* <View style={{ flex: 0.85, flexDirection: 'row', paddingHorizontal: 30}}>
-            <Text style={{fontSize: 20, fontFamily: 'Poppins-Regular',  marginTop: 30, }}>ENTRADAS</Text>
-            <Text style={{fontSize: 20, fontFamily: 'Poppins-Light', color: 'gray', marginTop: 30, }}>    BEBIDAS</Text>
-            <Text style={{fontSize: 20, fontFamily: 'Poppins-Light',  color: 'gray', marginTop: 30, }}>    SOBREMESAS</Text>
-            </View>             */}
-          </View>
+            <TouchableOpacity onPress={this.toggleAnimation} style={{width: '100%', alignItems: 'center'}}>
+              <Icon name="md-remove" style={{ fontSize: 30, marginTop: 10, color: 'gray' }}></Icon>
+            </TouchableOpacity>
+            <ScrollView
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{}}
+          >   
+            <View style={{ flexDirection: 'row', marginTop: 5, marginRight: 20, marginLeft: 20 }}>
+              {tabs.map(tab => this.renderTab(tab))}
+            </View>
+            </ScrollView>
+          </Animated.View>
         </View>
       </DismissKeyboard >
     );
@@ -125,5 +180,17 @@ RestaurantHome.defaultProps = {
 export default RestaurantHome;
 
 const styles = StyleSheet.create({
-
+  tabs: {
+    marginVertical: theme.sizes.base,
+    marginHorizontal: theme.sizes.base * 2
+  },
+  tab: {
+    marginRight: theme.sizes.base * 2,//
+    paddingBottom: theme.sizes.base,
+    textAlign: 'center',
+  },
+  active: {
+    borderBottomColor: '#91C6DC',
+    borderBottomWidth: 2
+  },
 });
